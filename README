@@ -1,0 +1,10 @@
+Example of use:
+
+page = PAGE
+page.10 = IMAGE
+page.10.file.import.cObject = BARCODE
+page.10.file.import.cObject {
+    type = UPC
+    prefix = 2
+    digits = 099352306753
+}
