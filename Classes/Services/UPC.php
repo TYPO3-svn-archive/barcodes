@@ -44,6 +44,20 @@ class Tx_Barcodes_Services_UPC extends tslib_gifBuilder {
 	protected $colorOff;
 
 	/**
+	 * @var tslib_cObj
+	 */
+	protected $cObj;
+
+	/**
+	 * Default constructor.
+	 *
+	 * @param tslib_cObj $cObj
+	 */
+	public function __construct(tslib_cObj $cObj) {
+		$this->cObj = $cObj;
+	}
+
+	/**
 	 * Configures the barcode generator.
 	 *
 	 * @param array $conf

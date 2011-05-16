@@ -51,7 +51,7 @@ class user_barcode {
 	public function cObjGetSingleExt($name, array $conf, $TSkey, tslib_cObj $cObj) {
 		switch ($conf['type']) {
 			case 'UPC':
-				$output = $this->getUPC($conf);
+				$output = $this->getUPC($conf, $cObj);
 				break;
 			case 'QR':
 				$output = $this->getQR($conf, $cObj);
@@ -68,11 +68,12 @@ class user_barcode {
 	 * Generates an UPC barcode.
 	 *
 	 * @param array $conf
+	 * @param tslib_cObj $cObj
 	 * @return string
 	 */
-	protected function getUPC(array $conf) {
+	protected function getUPC(array $conf, tslib_cObj $cObj) {
 		/** @var $upc Tx_Barcodes_Services_UPC */
-		$upc = t3lib_div::makeInstance('Tx_Barcodes_Services_UPC');
+		$upc = t3lib_div::makeInstance('Tx_Barcodes_Services_UPC', $cObj);
 
 		$upc->start($conf);
 		return $upc->gifBuild();
