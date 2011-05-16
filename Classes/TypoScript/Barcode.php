@@ -74,7 +74,7 @@ class user_barcode {
 		/** @var $upc Tx_Barcodes_Services_UPC */
 		$upc = t3lib_div::makeInstance('Tx_Barcodes_Services_UPC');
 
-		$upc->start($conf['prefix'], $conf['digits']);
+		$upc->start($conf);
 		return $upc->gifBuild();
 	}
 

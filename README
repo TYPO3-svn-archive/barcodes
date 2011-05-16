@@ -6,6 +6,9 @@ page.10 = IMAGE
 page.10.file.import.cObject = BARCODE
 page.10.file.import.cObject {
     type = UPC
+    backColor = #ffffff
+    format = png
+    thickness = 1
     prefix = 2
     digits = 099352306753
 }
