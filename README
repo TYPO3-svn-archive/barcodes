@@ -1,10 +1,35 @@
 Example of use:
 
 page = PAGE
+
 page.10 = IMAGE
 page.10.file.import.cObject = BARCODE
 page.10.file.import.cObject {
     type = UPC
     prefix = 2
     digits = 099352306753
+}
+
+page.20 = IMAGE
+page.20.file.import.cObject = BARCODE
+page.20.file.import.cObject {
+    type = QR
+
+    # Use page URL as content
+    content.cObject = TEXT
+    content.cObject.typolink {
+        parameter.data = TSFE:id
+        addQueryString = 1
+        addQueryString {
+            method = GET
+            exclude = id
+        }
+        forceAbsoluteUrl = 1
+        returnLast = url
+    }
+
+    # correctionLevel: 'L','M','Q','H'
+    correctionLevel = L
+    # matrixPointSize: 1-10
+    matrixPointSize = 4
 }

@@ -51,7 +51,10 @@ class user_barcode {
 	public function cObjGetSingleExt($name, array $conf, $TSkey, tslib_cObj $cObj) {
 		switch ($conf['type']) {
 			case 'UPC':
-				$output = $this->getUPC($conf, $cObj);
+				$output = $this->getUPC($conf);
+				break;
+			case 'QR':
+				$output = $this->getQR($conf, $cObj);
 				break;
 			default:
 				$output = 'Invalid type "' . $conf['type'] . '"';
@@ -65,15 +68,29 @@ class user_barcode {
 	 * Generates an UPC barcode.
 	 *
 	 * @param array $conf
-	 * @param tslib_cObj $cObj
 	 * @return string
 	 */
-	protected function getUPC(array $conf, tslib_cObj $cObj) {
+	protected function getUPC(array $conf) {
 		/** @var $upc Tx_Barcodes_Services_UPC */
 		$upc = t3lib_div::makeInstance('Tx_Barcodes_Services_UPC');
 
 		$upc->start($conf['prefix'], $conf['digits']);
 		return $upc->gifBuild();
+	}
+
+	/**
+	 * Generates a QR-code.
+	 *
+	 * @param array $conf
+	 * @param tslib_cObj $cObj
+	 * @return string
+	 */
+	protected function getQR(array $conf, tslib_cObj $cObj) {
+		/** @var $upc Tx_Barcodes_Services_QR */
+		$qr = t3lib_div::makeInstance('Tx_Barcodes_Services_QR', $cObj);
+
+		$qr->start($conf);
+		return $qr->gifBuild();
 	}
 
 }
