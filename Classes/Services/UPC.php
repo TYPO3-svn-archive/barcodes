@@ -92,7 +92,7 @@ class Tx_Barcodes_Services_UPC extends tslib_gifBuilder {
 	 * @access private
 	 */
 	public function make() {
-		// L patterns (http://en.wikipedia.org/wiki/Universal_Product_Code)
+		// L/R patterns (http://en.wikipedia.org/wiki/Universal_Product_Code)
 		$upcPatterns = array(
 			0 => array('L' => '0001101', 'R' => '1110010'),
 			1 => array('L' => '0011001', 'R' => '1100110'),
