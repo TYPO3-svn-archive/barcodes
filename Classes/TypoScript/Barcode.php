@@ -50,8 +50,13 @@ class user_barcode {
 	 */
 	public function cObjGetSingleExt($name, array $conf, $TSkey, tslib_cObj $cObj) {
 		switch ($conf['type']) {
+			case 'EAN13':
+				$output = $this->getEAN13($conf, $cObj);
+				break;
 			case 'UPC':
-				$output = $this->getUPC($conf, $cObj);
+				unset($conf['prefix.']);
+				$conf['prefix'] = 0;
+				$output = $this->getEAN13($conf, $cObj);
 				break;
 			case 'QR':
 				$output = $this->getQR($conf, $cObj);
@@ -65,18 +70,18 @@ class user_barcode {
 	}
 
 	/**
-	 * Generates an UPC barcode.
+	 * Generates an EAN-13 barcode.
 	 *
 	 * @param array $conf
 	 * @param tslib_cObj $cObj
 	 * @return string
 	 */
-	protected function getUPC(array $conf, tslib_cObj $cObj) {
-		/** @var $upc Tx_Barcodes_Services_UPC */
-		$upc = t3lib_div::makeInstance('Tx_Barcodes_Services_UPC', $cObj);
+	protected function getEAN13(array $conf, tslib_cObj $cObj) {
+		/** @var $upc Tx_Barcodes_Services_EAN13 */
+		$ean13 = t3lib_div::makeInstance('Tx_Barcodes_Services_EAN13', $cObj);
 
-		$upc->start($conf);
-		return $upc->gifBuild();
+		$ean13->start($conf);
+		return $ean13->gifBuild();
 	}
 
 	/**

@@ -1,3 +1,5 @@
-2011-05-16  Xavier Perseguers  <typo3@perseguers.ch>
+2011-05-16  Xavier Perseguers  <xavier@causal.ch>
 
+	* Added support for EAN-13 barcodes
+	* Added support for QR codes
 	* Initial upload

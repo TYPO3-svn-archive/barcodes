@@ -5,7 +5,8 @@ page = PAGE
 page.10 = IMAGE
 page.10.file.import.cObject = BARCODE
 page.10.file.import.cObject {
-    type = UPC
+    # UPC exists too but implies prefix=0
+    type = EAN13
     backColor = #ffffff
     format = png
     thickness = 1
