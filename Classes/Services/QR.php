@@ -96,9 +96,8 @@ class Tx_Barcodes_Services_QR {
 	/**
 	 * Calculates the GIFBUILDER output filename/path based on a serialized, hashed value of this->setup
 	 *
-	 * @param	string		Filename prefix, eg. "GB_"
-	 * @return	string		The relative filepath (relative to PATH_site)
-	 * @access private
+	 * @param string Filename prefix, eg. "GB_"
+	 * @return string The relative filepath (relative to PATH_site)
 	 */
 	protected function fileName($pre)  {
 		$meaningfulPrefix = '';

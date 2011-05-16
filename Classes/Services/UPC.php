@@ -40,31 +40,32 @@
 class Tx_Barcodes_Services_UPC extends tslib_gifBuilder {
 
 	protected $x;
-	protected $thickness = 1;
 	protected $colorOn;
 	protected $colorOff;
 
 	/**
 	 * Configures the barcode generator.
 	 *
-	 * @param string $prefix
-	 * @param string $digits
+	 * @param array $conf
 	 * @return void
 	 */
-	public function start($prefix, $digits) {
-		$XY = array(104 * $this->thickness, 50);
+	public function start(array $conf) {
+		// Apply stdWrap on each param
+		foreach ($conf as $key => $value) {
+			if (substr($key, -1) === '.') {
+				$baseKey = substr($key, 0, strlen($key) - 1);
+				$conf[$baseKey] = $this->cObj->stdWrap($conf[$baseKey], $value);
+			}
+		}
 
-		if (!preg_match('/^[0-9]{12}$/', $digits)) {
+		$XY = array(104 * $conf['thickness'], 50);
+
+		if (!preg_match('/^[0-9]{12}$/', $conf['digits'])) {
 			die('Digits must contain exactly 12 digits');
 		}
 
-		$this->setup = array(
-			'XY' => $XY[0] . ',' . $XY[1],
-			'backColor' => '#ffffff',
-			'format' => 'png',
-			'prefix' => $prefix,
-			'digits' => $digits,
-		);
+		$this->setup = $conf;
+		$this->setup['XY'] = $XY[0] . ',' . $XY[1];
 	}
 
 	/**
@@ -105,13 +106,13 @@ class Tx_Barcodes_Services_UPC extends tslib_gifBuilder {
 		$this->w = $XY[0];
 		$this->h = $XY[1];
 
-		$this->colorOn = ImageColorAllocate($this->im, 0x0A, 0x00, 0x00);
+		$this->colorOn = ImageColorAllocate($this->im, 0x00, 0x00, 0x00);
 		$this->colorOff = imageColorAllocate($this->im, 0xFF, 0xFF, 0xFF);
 
 			// backColor is set
 		$BGcols = $this->convertColor($this->setup['backColor']);
 		$Bcolor = ImageColorAllocate($this->im, $BGcols[0], $BGcols[1], $BGcols[2]);
-		ImageFilledRectangle($this->im, 0, 0, $XY[0], $XY[1], $Bcolor);
+		ImageFilledRectangle($this->im, 0, 0, $this->w, $this->h, $Bcolor);
 
 		$this->x = 0;
 		$digits = $this->setup['digits'];
@@ -154,10 +155,10 @@ class Tx_Barcodes_Services_UPC extends tslib_gifBuilder {
 	 */
 	protected function drawPattern($pattern, $char, $height) {
 		if ($char !== '') {
-			ImageChar($this->im, 2, $this->x + $this->thickness, $height - 1, $char, $this->colorOn);
+			ImageChar($this->im, 2, $this->x + $this->setup['thickness'], $height - 1, $char, $this->colorOn);
 		}
 		for ($c = 0; $c < strlen($pattern); $c++) {
-			for ($i = 0; $i < $this->thickness; $i++) {
+			for ($i = 0; $i < $this->setup['thickness']; $i++) {
 				$color = $pattern{$c} === '1' ? $this->colorOn : $this->colorOff;
 				ImageLine($this->im, $this->x, 0, $this->x, $height, $color);
 				$this->x++;
