@@ -72,7 +72,7 @@ class Tx_Barcodes_Services_EAN13 extends tslib_gifBuilder {
 			}
 		}
 
-		$XY = array(104 * $conf['thickness'], 50);
+		$XY = array(104 * $conf['thickness'], 55);
 
 		if (!preg_match('/^[0-9]$/', $conf['prefix'])) {
 			die('Prefix must contain exactly 1 digit');
